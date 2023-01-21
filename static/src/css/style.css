@@ -1,0 +1,8 @@
+                <style>
+                    .icon {
+                        background-image: url(path/to/icon.svg);
+                        width: 20px;
+                        height: 20px;
+                        display: inline-block;
+                    }
+                </style>

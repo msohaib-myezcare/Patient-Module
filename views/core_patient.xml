@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="core_patient_action" model="ir.actions.act_window">
+            <field name="name">Patient Details</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">core.patient</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add New Patient!
+                </p>
+            </field>
+        </record>
+
+    <record id="view_employee_filter" model="ir.ui.view">
+            <field name="name">patient.search</field>
+            <field name="model">core.patient</field>
+            <field name="arch" type="xml">
+                <search string="Patients">
+                    <field name="name" string="Patient" filter_domain="['|', ('name', 'ilike', self), ('name', 'ilike', self)]"/>
+                    <field name="assignee"/>
+                    <field name="status"/>
+                    <field name="gender"/>
+                    <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]"/>
+                    <separator/>
+                    <filter name="filter_status" string="Status" domain="[('status', '=', 'active')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="gender" string="Patients" context="{'group_by': 'gender'}"/>
+                        <filter name="status" string="Patients" context="{'group_by': 'status'}"/>
+                    </group>
+                    <searchpanel>
+                        <field name="gender" enable_counters="1"/>
+                        <field name="status" enable_counters="1"/>
+                    </searchpanel>
+                </search>
+             </field>
+        </record>
+
+
+    <record id="core_patient_tree" model="ir.ui.view">
+        <field name="name">core_patient_tree</field>
+        <field name="model">core.patient</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="first_name"/>
+                <field name="date_of_birth"/>
+                <field name="gender"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="core_patient_form" model="ir.ui.view">
+        <field name="name">Core Patient Form</field>
+        <field name="model">core.patient</field>
+        <field name="arch" type="xml">
+          <form>
+          <header>
+                <button name="open_care_plan" type="object" string="Careplan" class="oe_highlight"/>
+                <button name="open_financial" type="object" string="Financial" class="oe_highlight"/>
+                <button name="open_notes" type="object" string="Notes" class="oe_highlight"/>
+                <button name="open_block_employee" type="object" string="Block Employee" class="oe_highlight"/>
+                <field name="states" widget="statusbar"/>
+            </header>
+            <sheet>
+                <div class="oe_button_box" t-name="oe_button_box">
+                    <button string="Complete" class="oe_stat_button" name="action_confirm" icon="fa-check-square-o" type="object"/>
+                    <button string="Documents" class="oe_stat_button" name="action_confirm" type="object" icon="fa-folder-o"/>
+                    <button string='PA Expiring' class="oe_stat_button" name="action_confirm" type="object" icon="fa-exclamation-triangle"/>
+                    <button string="Messages" name="action_confirm" type="object" class="oe_stat_button" icon="fa-envelope-o"/>
+                    <button string="Vitals" name="action_confirm" type="object" class="oe_stat_button"  icon="fa-heart-o"/>
+                    <button string="Schedule" class="oe_stat_button" name="action_confirm" type="object" icon="fa-calendar-o"/>
+                </div>
+                <group col="3">
+                    <group>
+                        <field name="first_name" placeholder="First Name"/>
+                        <field name="date_of_birth" placeholder="mm/dd/yyyy"/>
+                        <field name="account" placeholder="Account No"/>
+                        <field name="assignee" placeholder="Select Assignee"/>
+                        <field name="groups"/>
+                        <field name="age"/>
+                    </group>
+                <group>
+                    <field name="middle_name" placeholder="Middle Name"/>
+                    <field name="gender" placeholder="Select Gender"/>
+                    <field name="location"/>
+                    <field name="care_tags" widget="many2many_tags" placeholder="Select Care Type"/>
+                    <field class="oe_inline" name="ssn" placeholder="xxx-xx-xxxx"/>
+                </group>
+                <group>
+                    <field name="last_name" placeholder="Last Name"/>
+                    <field name="lang" placeholder="Select Language"/>
+                    <field name="status" placeholder="Select Status"/>
+                    <field class="oe_inline" name="service_tags" widget="many2many_tags" placeholder="Select Service Types"/>
+                </group>
+              </group>
+                <notebook colspan="4">
+                <page string="Contacts &amp; Addresses" name="contact_addresses" autofocus="autofocus">
+                    <field name="module_line_ids_contacts" string="Contacts" mode="kanban">
+                <kanban>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="street"/>
+                            <field name="street2"/>
+                            <field name="city"/>
+                            <field name="state_id"/>
+                            <field name="zip"/>
+                            <field name="country_id"/>
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="contact_tags" widget="many2many_tags"/>
+                            <field name="image_1920" widget="image"/>
+                        </group>
+                    </group>
+                        <templates>
+                            <t t-name="kanban-box">
+                                <div t-attf-class="oe_kanban_global_click">
+                                    <div class="o_kanban_image">
+                                        <field name="image_1920" widget="image" class="oe_avatar"/>
+                                    </div>
+                                    <div class="oe_kanban_details">
+                                        <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                        </strong>
+                                    <div t-if="record.phone.value">
+                                            <t t-esc="record.phone.value"/>
+                                    </div>
+                                        <div t-if="record.city.value">
+                                            <t t-esc="record.city.value"/>
+                                    </div>
+                                        <div t-if="record.country_id.value">
+                                            <t t-esc="record.country_id.value"/>
+                                    </div>
+                                    </div>
+                                        <div t-if="record.contact_tags.value">
+                                            <t t-esc="record.contact_tags.value"/>
+                                    </div>
+                                </div>
+                            </t>
+                        </templates>
+                    </kanban>
+                <form string="Contact / Address">
+                    <sheet>
+                        <group col="3">
+                            <group>
+                                <field name="name"/>
+                                <field name="street"/>
+                                <field name="street2"/>
+                                <field name="city"/>
+                                <field name="state_id"/>
+                                <field name="contact_tags" widget="many2many_tags"/>
+                            </group>
+                            <group>
+                                <field name="country_id"/>
+                                <field name="phone"/>
+                                <field name="mobile"/>
+                                <field name="zip"/> 
+                                <field name="state_id"/>
+                            </group>
+                            <group>
+                                <field name="image_1920" widget="image" class="oe_avatar"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </page>
+                    <!-- <page string="Contacts" name="contacts">
+                        <group col="3" name="contact_details" string="Contact Details">
+                            <group>
+                                <field name="contact_type"/>
+                                <field name="cemail"/>
+                                <field name="is_emergency_contact"/>
+                                <field name="state"/>
+                            </group>
+                            <group>
+                                <field name="f_name"/>
+                                <field name="primary_number"/>
+                                <field name="address"/>
+                                <field name="zip_code"/>
+                            </group>
+                            <group>
+                                <field name="l_name"/>
+                                <field name="alternate_number"/>
+                                <field name="city"/>
+                                <field name="language_preference"/>
+                                <field name="apartment_no"/>
+                            </group>
+                        </group>
+                    </page> -->
+                    <page string="History" name="history">
+                        <group col="3" name="health_care_information" string="Health care Information">
+                            <group>
+                                <field name="blood_group"/>
+                                <field name="ethnicity"/>
+                                <field name="race"/>
+                            </group>
+                            <group>
+                            </group>
+                            <group>
+                                <button string="BMI" class="btn btn-danger" name="%(patient_configuration.bmi_wiz)d" id="bmi" type="action"/>
+                                <!-- <button type="action" name="%(patient_configuration.bmi_wiz)d" string="IBM" id="bmi" class="btn-ibm" /> -->
+                            </group>
+                        </group>
+                    </page>
+                    <page string="DxCode" name="dxcode">
+                        <field name="module_line_ids_dxcode">
+                            <tree editable="bottom">
+                                <field name="icd10cm_code_id"
+                                   options="{'no_create': True, 'no_edit': True, 'no_create_edit': True, 'no_open': True}"
+                                   context="{'from_icd10cm_code': True}" required="1"/>
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Physicians" name="physician">
+                        <field name="module_line_ids_physician">
+                            <tree editable="bottom">
+                                <field name="physician"/>
+                                <field name="address"/>
+                                <field name="phone"/>
+                                <field name="Specialist"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Allergy" name="allergy">
+                        <group name="allergy" string="Allergy">
+                            <group>
+                                <field name="allergy"/>
+                                <field name="causative_agent" attrs="{'on_change': '_onchange_causative_agent'}"/>
+                                <field name="observed"/>
+                                <field name="historical"/>
+                            </group>
+                            <group>
+                                <field name="reported_by"/>
+                                <field name="reaction"/>
+                                <field name="comments"/>
+                            </group>
+                        </group>
+                        <field name="module_line_ids_allergy">
+                            <tree editable="bottom">
+                                <field name="causative_agents"/>
+                                <field name="date"/>
+                                <field name="status" placeholder="Select Status"/>
+                                <field name="reaction"/>
+                                <field name="reported_by"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Medication" name="medication">
+                        <group col="3" name="medication" string="Medication">
+                            <group>
+                                <field name="search_medication"/>
+                                <field name="route"/>
+                                <field name="physician"/>
+                                <field name="patient_instructions"/>
+                                <field name="units"/>
+                            </group>
+                            <group>
+                                <field name="strength"/>
+                                <field name="quantity"/>
+                                <field name="health_diagnostics"/>
+                                <field name="pharmacist_instructions"/>
+                                <field name="frequency"/>
+                            </group>
+                            <group>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                                <!-- <field name="active"/>
+                                <field name="in_active"/> -->
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Equipment" name="equipment">
+                    </page>
+                    <page string="Preference Skills" name="preference_skills">
+                        <group col="3" name="patient_preference_skills" string="Patient Preference / Skills">
+                            <group>
+                                <field name="preference"/>
+                            </group>
+                            <group>
+                                <field name="required_skills"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Settings" name="setting">
+                        <group col="3" name="access_details" string="Access Details">
+                            <group>
+                                <field name="name"/>
+                                <field name="login"/>
+                            </group>
+                            <group>
+                                <field name="email"/>
+                                <field name="password"/>
+                                <button name="create_user" type="object" string="Create User" class="oe_highlight"/>
+                            </group>
+                            <group>
+                                <div>
+                                    <field name="image" widget="image" class="oe_avatar oe_left"/>Profile Photo(Attach less than 2mb)
+                                </div>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" groups="base.group_user"/>
+                <field name="activity_ids"/>        
+                <field name="message_ids"/>
+            </div>        
+        </form>
+    </field>
+</record>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <menuitem id="patient_root"
+              name="Patients"
+              sequence="10"/>
+
+    <menuitem id="core_patient_root"
+              name="Patients"
+              parent="patient_root"
+              sequence="10"/>
+
+    <menuitem id="core_patient"
+              name="Patients"
+              parent="core_patient_root"
+              action="core_patient_action"
+              sequence="10"/>
+
+</odoo>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="notes_action" model="ir.actions.act_window">
+            <field name="name">Notes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">notes</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Notes!
+                </p>
+            </field>
+        </record>
+
+
+    <record id="notes_tree" model="ir.ui.view">
+        <field name="name">Notes Tree</field>
+        <field name="model">notes</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="notes_id"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+
+
+
+    <record id="notes_form" model="ir.ui.view">
+        <field name="name">notes Form</field>
+        <field name="model">notes</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="states" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <field name="module_lines">
+                        <tree editable="bottom">
+                            <field name="note"/>
+                            <field name="added_by"/>
+                            <field name="category"/>
+                            <field name="added_date"/>
+                            <field name="is_private"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <menuitem id="notes"
+            name="Notes"
+            parent="patient_configuration.patient_root" 
+            action="notes_action"
+            sequence="40"/>
+
+
+
+
+
+
+
+
+
+</odoo>

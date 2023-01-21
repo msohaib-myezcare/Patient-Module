@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="financial_action" model="ir.actions.act_window">
+            <field name="name">Financial</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">financial</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Financial!
+                </p>
+            </field>
+        </record>
+
+
+    <record id="financial_tree" model="ir.ui.view">
+        <field name="name">financial Tree</field>
+        <field name="model">financial</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="payor"/>
+                <field name="beneficiary_type"/>
+                <field name="beneficiary"/>
+                <field name="starting_date"/>
+                <field name="end_date"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="financial_form" model="ir.ui.view">
+        <field name="name">Financial Form</field>
+        <field name="model">financial</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="states" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <notebook>
+                        <page string="Patient Payors" name="patient_payors">
+                            <group>
+                            <group>
+                                <field name="payor"/>
+                                <field name="end_date"/>
+                                <field name="beneficiary_type"/>
+                                <field name="employee_school_name"/>
+                                <field name="member_id"/>
+                            </group>
+                            <group>
+                                <field name="starting_date"/>
+                                <field name="precedence"/>
+                                <field name="beneficiary"/>
+                                <field name="insured_policy_group_feca_number"/>
+                            </group>
+                            </group>
+                            <group>
+                                <field name="checkbox_show_fields" string="Are you the primary member on insurance?"/>
+                            </group>
+                            <group>
+                            <group>
+                                <field name="f_name" attrs="{'invisible': [('checkbox_show_fields', '=', False)]}"/>
+                                <field name="l_name" attrs="{'invisible': [('checkbox_show_fields', '=', False)]}"/>
+                                <field name="address" attrs="{'invisible': [('checkbox_show_fields', '=', False)]}"/>
+                                <field name="state" attrs="{'invisible': [('checkbox_show_fields', '=', False)]}"/>
+                                <field name="phone" attrs="{'invisible': [('checkbox_show_fields', '=', False)]}"/>
+                                <field name="in_check_box_employee_school_name" attrs="{'invisible': [('checkbox_show_fields', '=', False)]}"/>
+                            </group>
+                            <group>
+                                <field name="m_name" attrs="{'invisible': [('checkbox_show_fields', '=', False)]}"/>
+                                <field name="city" attrs="{'invisible': [('checkbox_show_fields', '=', False)]}"/>
+                                <field name="zip_code" attrs="{'invisible': [('checkbox_show_fields', '=', False)]}"/>
+                                <field name="member_id" attrs="{'invisible': [('checkbox_show_fields', '=', False)]}"/>
+                                <field name="date_of_birth" attrs="{'invisible': [('checkbox_show_fields', '=', False)]}"/>
+                                <field name="in_check_box_insured_policy_group_feca_number" attrs="{'invisible': [('checkbox_show_fields', '=', False)]}"/>
+                            </group>
+                            </group>
+                        </page>
+                        <page string="Billing Settings" name="billing_settings">
+                            <group name="prior_authorization" string="Prior Authorization">
+                            <group>
+                                <field name="facility_coder"/>
+                                <field name="payor"/>
+                                <field name="rate"/>
+                                <field name="pay_rate"/>
+                                <field name="revenue_code"/>
+                                <field name="service_code"/>
+                                <field name="unit_type"/>
+                            </group>
+                            <group>
+                                <field name="care_type"/>
+                                <field name="taxonomy"/>
+                                <field name="dxcode"/>
+                                <field name="modifier"/>
+                                <field name="authorization_code"/>
+                                <field name="s_date"/>
+                                <field name="e_date"/>
+                                <field name="attachment"/>
+                            </group>
+                            </group>
+                        </page>
+                        <notebook>
+                            <page string="Billing" name="billing">
+                            </page>
+                        </notebook>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <menuitem id="financial"
+            name="Financial"
+            parent="patient_configuration.patient_root" 
+            action="financial_action"
+            sequence="30"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</odoo>

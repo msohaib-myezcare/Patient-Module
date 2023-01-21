@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="block_action" model="ir.actions.act_window">
+            <field name="name">Block Employee</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">block.employee</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Block Employee!
+                </p>
+            </field>
+        </record>
+
+
+    <record id="block_employee_tree" model="ir.ui.view">
+        <field name="name">Block Employee Tree</field>
+        <field name="model">block.employee</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="block_id" string="Block Employee"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="block_employee_form" model="ir.ui.view">
+        <field name="name">Block Employee Form</field>
+        <field name="model">block.employee</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                        <field name="states" widget="statusbar"/>
+                    </header>
+                <sheet>
+                    <field name="module_lines">
+                        <tree editable="bottom">
+                            <field name="employee"/>
+                            <field name="blocking_reason"/>
+                            <field name="blocking_requested_by"/>
+                            <field name="blocked_date"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <menuitem id="block_employee"
+            name="Block Employee"
+            parent="patient_configuration.patient_root" 
+            action="block_action"
+            sequence="50"/>
+
+
+
+
+
+
+
+
+
+</odoo>

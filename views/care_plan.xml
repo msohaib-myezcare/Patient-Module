@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="care_plan_action" model="ir.actions.act_window">
+            <field name="name">Care Plan</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">care.plan</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Care Plan!
+                </p>
+            </field>
+        </record>
+
+
+    <record id="care_plan_tree" model="ir.ui.view">
+        <field name="name">Care Plan Tree</field>
+        <field name="model">care.plan</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="patients_id"/>
+                <field name="task"/>
+                <field name="care_type"/>
+                <field name="goal"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="core_plan_form" model="ir.ui.view">
+        <field name="name">Core Plan Form</field>
+        <field name="model">care.plan</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                        <field name="states" widget="statusbar"/>
+                </header>
+                    <sheet>
+                    <notebook>
+                        <page string="Tasks Mapping" name="tasks_mapping">
+                            <group col="3">
+                                <group>
+                                    <field name="task"/>
+                                </group>
+                                <group>
+                                    <field name="care_type"/>
+                                </group>
+                                <group>
+                                    <field name="goal"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Patient Schedule" name="patient_schedule">
+                            <group col='3'>
+                                <group>
+                                    <field name="referral" placeholder="Patient Name"/>
+                                    <field name="select_patient_filter"/>
+                                </group>
+                                <group>
+                                    <field name="start_date"/>
+                                    <field name="check_show_fields" string="End Date"/>
+                                </group>
+                                <group>
+                                    <field name="end_date" attrs="{'invisible': [('check_show_fields', '=', False)]}"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    
+
+    <menuitem id="care_plan"
+            name="Care Plan"
+            parent="patient_configuration.patient_root" 
+            action="care_plan_action"
+            sequence="20"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</odoo>

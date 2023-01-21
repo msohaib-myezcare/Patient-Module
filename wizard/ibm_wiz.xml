@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="bmi_wiz_view_form" model="ir.ui.view">
+        <field name="model">m.core.bmi</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="standard"/>
+                    </group>
+                    <group>
+                        <field name="metric"/>
+                    </group>
+                </group>
+
+                <group>
+                    <group>
+                        <field name="weight"/>
+                    </group>
+                    <group>
+                        <field name="height"/>
+                    </group>
+                </group>
+
+                <group>
+                    <group>
+                        <field name="bmi" />
+                    </group>
+                </group>
+
+                <footer>
+                    <button name="caluc" string="Save" type="object" class=" btn-red btn-primary"/>
+                    <button string="Cancel" class="btn-can btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="bmi_wiz" model="ir.actions.act_window">
+        <field name="name">BMI View</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">m.core.bmi</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="bmi_wiz_view_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
